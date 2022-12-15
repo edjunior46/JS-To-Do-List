@@ -4,7 +4,6 @@ const tasksList = document.querySelector("#todoTasks")
 const doneList = document.querySelector("#doneList")
 
 let tasksArr = []
-let doneTasksArr = []
 
 addTasksBtn.addEventListener("click", () => {
     if(taskInput.value){
@@ -31,13 +30,9 @@ function createTask(arr) {
         const taskLabel = document.createElement("label")
         taskLabel.setAttribute("for", `taskCheck${e.order}`)
         taskLabel.addEventListener("input", () => {
-            if(a[i].check == true ){
-                a[i].check = false
-            } else {
-                a[i].check = true
-            }
-            checkTasks(a[i])
-            // console.log(a[i])
+            a[i].check = true
+            // checkTasks(a)
+            console.log(a[i])
         })
 
         const taskCheck = document.createElement("input")
@@ -55,7 +50,12 @@ function createTask(arr) {
         const clrBtn = document.createElement("button")
         clrBtn.classList.add("clrBtn")
         clrBtn.innerText = "Clear"
-        clrBtn.addEventListener("click", clearTask)
+        clrBtn.addEventListener("click", (e, i, a) => {
+            let clrArr = a.filter(() => {
+                a.splice(e.order, 1)
+            })
+            createTask(clrArr)
+        })
 
         taskLabel.appendChild(taskCheck)
         taskLabel.appendChild(taskTxt)
@@ -65,24 +65,8 @@ function createTask(arr) {
         tasksList.appendChild(newTask)
 
     })
-    console.log(tasksArr)
 }
 
-function clearTask() {
-    let clrFn = tasksArr.filter((e, i) => {
-        return i != this.parentElement.parentElement.getAttribute("order")
-    })
-    tasksArr = clrFn
-    createTask(clrFn)
-}
+// function checkTasks(arr){
 
-// function checkTasks(obj){
-//     if (obj.check === true){
-//         doneList.appen
-//     } else {
-//         // doneList.appendChild(tasksList.children[obj.order].cloneNode(false))
-//         // tasksList.children[obj.order].style = "display: block;"
-//     }
 // }
-
-//peagr o order, pegar os valores, pesquisar em tasksList o elemento que me foi passado e jogar para done
