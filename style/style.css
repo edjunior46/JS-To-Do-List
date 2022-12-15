@@ -26,7 +26,7 @@ body {
     flex-direction: column;
 }
 
-#menuTasks .menuTitle {
+.menuTitle {
     background-color: #16BFFD;
     font-size: 3rem;
     color: #fff;
@@ -38,14 +38,14 @@ body {
     padding: 20px 0;
 }
 
-#menuTasks #addTasks {
+#addTasks {
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 10px;
 }
 
-#menuTasks #addTasks input {
+#addTasks input {
     border: none;
     border-radius: 5px;
     height: 3rem;
@@ -56,7 +56,7 @@ body {
     outline-color: #16BFFD;
 }
 
-#menuTasks #addTasks button {
+#addTasks button {
     background-color: #16BFFD;
     width: 40px;
     height: 40px;
@@ -67,18 +67,18 @@ body {
     cursor: pointer;
 }
 
-#menuTasks #addTasks button:hover {
+#addTasks button:hover {
     outline: 2px solid;
 }
 
-#menuTasks #taskCount {
+#taskCount {
     height: 3rem;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-#menuTasks #todoTasks{
+#todoTasks, #doneList{
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -88,20 +88,20 @@ body {
     list-style: none;
 }
 
-#menuTasks #todoTasks::-webkit-scrollbar{
+#todoTasks::-webkit-scrollbar, #doneList::-webkit-scrollbar{
     border-radius: 10px;
 }
 
-#menuTasks #todoTasks::-webkit-scrollbar-thumb{
+#todoTasks::-webkit-scrollbar-thumb, #doneList::-webkit-scrollbar-thumb{
     background-color: #16bffd79;
     border-radius: 10px;
 }
 
-#menuTasks #todoTasks li {
+#todoTasks li, #doneList li {
     display: flex;
 }
 
-#menuTasks #todoTasks label {
+#todoTasks label, #doneList label {
     width: 100%;
     height: 100%;
     padding: 15px;
@@ -109,19 +109,28 @@ body {
     display: flex;
 }
 
-#menuTasks #todoTasks label:hover{
+#todoTasks label:hover, #doneList label:hover{
     background-color: #80808033;
 }
 
-#menuTasks #todoTasks button{
+#todoTasks button, #doneList button{
     cursor: pointer;
     padding: 2px;
     margin: 0px 10px;
 }
 
-#menuTasks #todoTasks span {
+#todoTasks span, #doneList span{
     width: 100%;
     margin-left: 10px;
     display: flex;
     align-items: center;
+}
+
+#doneList span {
+    text-decoration: line-through;
+    font-style: italic;
+}
+
+#doneList input {
+
 }

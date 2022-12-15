@@ -12,7 +12,7 @@ addTasksBtn.addEventListener("click", () => {
             task:  taskInput.value,
             check: false
         })
-        createTask(tasksArr)
+        createTask(tasksArr, tasksList)
         taskInput.value = ""
         taskInput.focus()
     } else {
@@ -21,8 +21,8 @@ addTasksBtn.addEventListener("click", () => {
     }
 })
 
-function createTask(arr) {
-    tasksList.innerHTML = ""
+function createTask(arr, list) {
+    list.innerHTML = ""
     arr.forEach((e, i, a) => {
         e.order = i
         const newTask = document.createElement("li")
@@ -36,14 +36,16 @@ function createTask(arr) {
             } else {
                 a[i].check = true
             }
-            checkTasks(a[i])
-            // console.log(a[i])
+            checkTasks(a)
         })
 
         const taskCheck = document.createElement("input")
         taskCheck.setAttribute("type", "checkbox")
         taskCheck.setAttribute("name", `taskCheck${e.order}`)
         taskCheck.setAttribute("id", `taskCheck${e.order}`)
+        if (list.getAttribute("id") === "doneList"){
+            taskCheck.setAttribute("checked", "true")
+        }
 
         const taskTxt = document.createElement("span")
         taskTxt.innerText = e.task
@@ -62,27 +64,33 @@ function createTask(arr) {
         taskLabel.appendChild(editBtn)
         taskLabel.appendChild(clrBtn)
         newTask.appendChild(taskLabel)
-        tasksList.appendChild(newTask)
-
+        list.appendChild(newTask)
     })
-    console.log(tasksArr)
+    if(tasksArr.length == 0){
+        document.querySelector("#taskCount").innerText = `Você tem não tem tarefas.`
+    } else if (tasksArr.length == 1){
+        document.querySelector("#taskCount").innerText = `Você tem ${tasksArr.length} tarefa pendente!`
+    } else {
+        document.querySelector("#taskCount").innerText = `Você tem ${tasksArr.length} tarefas pendentes!`
+    }
 }
 
 function clearTask() {
-    let clrFn = tasksArr.filter((e, i) => {
+    tasksArr = tasksArr.filter((e, i) => {
         return i != this.parentElement.parentElement.getAttribute("order")
     })
-    tasksArr = clrFn
-    createTask(clrFn)
+    createTask(tasksArr, this.parentElement.parentElement.parentElement)
 }
 
-// function checkTasks(obj){
-//     if (obj.check === true){
-//         doneList.appen
-//     } else {
-//         // doneList.appendChild(tasksList.children[obj.order].cloneNode(false))
-//         // tasksList.children[obj.order].style = "display: block;"
-//     }
-// }
-
-//peagr o order, pegar os valores, pesquisar em tasksList o elemento que me foi passado e jogar para done
+function checkTasks(a){
+    a.map((e, i) => {
+        if (e.check === true){
+            doneTasksArr.push(e)
+            a.splice(i, 1)
+        } else {
+            doneTasksArr.splice(i, 1)
+        }
+    })
+    createTask(doneTasksArr, doneList)
+    createTask(a, tasksList)
+}
