@@ -29,20 +29,26 @@ function createTask(arr, list) {
         newTask.setAttribute("order", e.order)
 
         const taskLabel = document.createElement("label")
-        taskLabel.setAttribute("for", `taskCheck${e.order}`)
+        taskLabel.setAttribute("for", `taskCheck${e.order}${e.check}`)
         taskLabel.addEventListener("input", () => {
-            if(a[i].check == true ){
-                a[i].check = false
+            if(e.check === true){
+                e.check = false
+                tasksArr.push(e)
+                doneTasksArr.splice(i, 1)
             } else {
-                a[i].check = true
+                e.check = true
+                doneTasksArr.push(e)
+                tasksArr.splice(i, 1)
             }
-            checkTasks(a)
-        })
+            createTask(tasksArr, tasksList)
+            createTask(doneTasksArr, doneList)
+            }
+        )
 
         const taskCheck = document.createElement("input")
         taskCheck.setAttribute("type", "checkbox")
-        taskCheck.setAttribute("name", `taskCheck${e.order}`)
-        taskCheck.setAttribute("id", `taskCheck${e.order}`)
+        taskCheck.setAttribute("name", `taskCheck${e.order}${e.check}`)
+        taskCheck.setAttribute("id", `taskCheck${e.order}${e.check}`)
         if (list.getAttribute("id") === "doneList"){
             taskCheck.setAttribute("checked", "true")
         }
@@ -57,7 +63,21 @@ function createTask(arr, list) {
         const clrBtn = document.createElement("button")
         clrBtn.classList.add("clrBtn")
         clrBtn.innerText = "Clear"
-        clrBtn.addEventListener("click", clearTask)
+        clrBtn.addEventListener("click", () => {
+            if (list.getAttribute("id") == "todoTasks"){
+                tasksArr = tasksArr.filter((e, i) => {
+                    return i != clrBtn.parentElement.parentElement.getAttribute("order")
+                })
+                createTask(tasksArr, tasksList)
+                console.log(tasksArr)
+            } else {
+                doneTasksArr = doneTasksArr.filter((e, i) => {
+                    return i != clrBtn.parentElement.parentElement.getAttribute("order")
+                })
+                createTask(doneTasksArr, doneList)
+                console.log(doneTasksArr)
+            }
+        })
 
         taskLabel.appendChild(taskCheck)
         taskLabel.appendChild(taskTxt)
@@ -73,24 +93,4 @@ function createTask(arr, list) {
     } else {
         document.querySelector("#taskCount").innerText = `Você tem ${tasksArr.length} tarefas pendentes!`
     }
-}
-
-function clearTask() {
-    tasksArr = tasksArr.filter((e, i) => {
-        return i != this.parentElement.parentElement.getAttribute("order")
-    })
-    createTask(tasksArr, this.parentElement.parentElement.parentElement)
-}
-
-function checkTasks(a){
-    a.map((e, i) => {
-        if (e.check === true){
-            doneTasksArr.push(e)
-            a.splice(i, 1)
-        } else {
-            doneTasksArr.splice(i, 1)
-        }
-    })
-    createTask(doneTasksArr, doneList)
-    createTask(a, tasksList)
 }
