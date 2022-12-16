@@ -17,14 +17,14 @@ addTasksBtn.addEventListener("click", () => {
         taskInput.value = ""
         taskInput.focus()
     } else {
-        alert("Insira um titulo para sua tarefa!")
+        alert("Insira um título para sua tarefa!")
         taskInput.focus()
     }
 })
 
 function createTask(arr, list) {
     list.innerHTML = ""
-    arr.forEach((e, i, a) => {
+    arr.forEach((e, i) => {
         e.order = i
         const newTask = document.createElement("li")
         newTask.setAttribute("order", e.order)
@@ -59,34 +59,36 @@ function createTask(arr, list) {
 
         const editBtn = document.createElement("button")
         editBtn.classList.add("editBtn")
-        editBtn.innerText = "Edit"
+        editBtn.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>'
         editBtn.addEventListener("click", () => {
-            editBtn.previousElementSibling.innerText = prompt("Edite sua tarefa")
+            let newTxt = prompt("Edite sua tarefa")
+            if (newTxt) {
+                editBtn.previousElementSibling.innerText = newTxt
+            } else {
+                alert("Insira um novo título válido para sua tarefa")
+            }
+            
             if (list.getAttribute("id") == "todoTasks"){
                 tasksArr[editBtn.parentElement.parentElement.getAttribute("order")].task = editBtn.previousElementSibling.innerText
-                console.log(tasksArr)
             } else {
                 doneTasksArr[editBtn.parentElement.parentElement.getAttribute("order")].task = editBtn.previousElementSibling.innerText
-                console.log(doneTasksArr)
             }
         })
 
         const clrBtn = document.createElement("button")
         clrBtn.classList.add("clrBtn")
-        clrBtn.innerText = "Clear"
+        clrBtn.innerHTML = '<i class="fa-solid fa-trash"></i>'
         clrBtn.addEventListener("click", () => {
             if (list.getAttribute("id") == "todoTasks"){
                 tasksArr = tasksArr.filter((e, i) => {
                     return i != clrBtn.parentElement.parentElement.getAttribute("order")
                 })
                 createTask(tasksArr, tasksList)
-                console.log(tasksArr)
             } else {
                 doneTasksArr = doneTasksArr.filter((e, i) => {
                     return i != clrBtn.parentElement.parentElement.getAttribute("order")
                 })
                 createTask(doneTasksArr, doneList)
-                console.log(doneTasksArr)
             }
         })
 
@@ -97,6 +99,7 @@ function createTask(arr, list) {
         newTask.appendChild(taskLabel)
         list.appendChild(newTask)
     })
+    
     if(tasksArr.length == 0){
         document.querySelector("#taskCount").innerText = `Você tem não tem tarefas.`
     } else if (tasksArr.length == 1){
