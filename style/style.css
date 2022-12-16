@@ -131,6 +131,18 @@ body {
     font-style: italic;
 }
 
-#doneList input {
+#editTasks {
+    position: absolute;
+    padding: 10px;
+    background-color: #16BFFD;
+    border-radius: 10px;
+    transform: translate(-50%, -50%);
+}
 
+.activated {
+    display: block;
+}
+
+.disabled {
+    display: none;
 }

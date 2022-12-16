@@ -2,6 +2,7 @@ const taskInput = document.querySelector("#inputTasks")
 const addTasksBtn = document.querySelector("#addTasks button")
 const tasksList = document.querySelector("#todoTasks")
 const doneList = document.querySelector("#doneList")
+const editDiv = document.querySelector("#editTasks")
 
 let tasksArr = []
 let doneTasksArr = []
@@ -59,6 +60,16 @@ function createTask(arr, list) {
         const editBtn = document.createElement("button")
         editBtn.classList.add("editBtn")
         editBtn.innerText = "Edit"
+        editBtn.addEventListener("click", () => {
+            editBtn.previousElementSibling.innerText = prompt("Edite sua tarefa")
+            if (list.getAttribute("id") == "todoTasks"){
+                tasksArr[editBtn.parentElement.parentElement.getAttribute("order")].task = editBtn.previousElementSibling.innerText
+                console.log(tasksArr)
+            } else {
+                doneTasksArr[editBtn.parentElement.parentElement.getAttribute("order")].task = editBtn.previousElementSibling.innerText
+                console.log(doneTasksArr)
+            }
+        })
 
         const clrBtn = document.createElement("button")
         clrBtn.classList.add("clrBtn")
